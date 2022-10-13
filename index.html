@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SheCodes Plus WorkshopW2</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="src/style.css" />
+    <script
+      src="https://kit.fontawesome.com/cce3fc98a6.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <br />
+      <form>
+        <div class="input-group mb-3 search-city">
+          <span class="input-group-text" id="basic-addon1">🔍</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search for a city"
+            aria-describedby="basic-addon1"
+            value
+          />
+          <button
+            type="submit"
+            id="search-button"
+            class="btn btn-outline-secondary"
+          >
+            Search
+          </button>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="current-location-btn"
+          >
+            Current
+          </button>
+        </div>
+      </form>
+      <hr />
+      <p>Current weather in:</p>
+      <div class="row">
+        <div class="col-6">
+          <div class="card h-100">
+            <div class="card-body">
+              <h1>Barcelona</h1>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card text-center h-100">
+            <div class="card-body">
+              <i class="fa-solid fa-sun"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card text-center h-100">
+            <div class="card-body">
+              <span id="current-temperature">28ºC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <p id="current-date">Current date and time</p>
+
+      <hr />
+      <p>Forecast:</p>
+      <div class="row">
+        <div class="col">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Monday</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                <i class="fa-solid fa-sun"></i>
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Tuesday</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                <i class="fa-solid fa-cloud-sun"></i>
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Wednesday</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                <i class="fa-solid fa-cloud-sun-rain"></i>
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Thursday</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                <i class="fa-solid fa-cloud-rain"></i>
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">Friday</h5>
+              <h6 class="card-subtitle mb-2 text-muted">
+                <i class="fa-solid fa-cloud-rain"></i>
+              </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="src/app.js"></script>
+  </body>
+</html>

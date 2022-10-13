@@ -1,0 +1,27 @@
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  background: linear-gradient(
+    68.6deg,
+    rgb(252, 165, 241) 1.8%,
+    rgb(181, 255, 255) 100.5%
+  );
+}
+
+.search-city {
+  margin-top: 60px;
+}
+
+.container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+p {
+  font-size: 25px;
+}
+
+i,
+span {
+  font-size: 30px;
+  color: rgb(144, 50, 132);
+}
