@@ -68,7 +68,10 @@ let dateElement = document.querySelector("#current-date");
 dateElement.innerHTML = `${day} ${hours}:${minutes}`;
 
 let submitButton = document.querySelector("#search-button");
-submitButton.onclick = getCity;
+submitButton.addEventListener("click", function (e) {
+  e.preventDefault();
+  getCity();
+});
 
 let currentLocationButton = document.querySelector("#current-location-btn");
 currentLocationButton.onclick = getCurrentLocation;
