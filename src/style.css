@@ -1,14 +1,7 @@
 body {
   font-family: "Roboto Condensed", sans-serif;
-  background: linear-gradient(
-    68.6deg,
-    rgb(252, 165, 241) 1.8%,
-    rgb(181, 255, 255) 100.5%
-  );
-}
-
-.search-city {
-  margin-top: 60px;
+  background: #a5c9ca;
+  color: #2c3333;
 }
 
 .container {
@@ -24,8 +17,20 @@ p {
   font-size: 12px;
 }
 
+.card {
+  border: 0px;
+}
+
+.weather-icon {
+  width: 50px;
+}
+
 i,
 span {
   font-size: 30px;
-  color: rgb(144, 50, 132);
+  color: #395b64;
+}
+
+button {
+  color: #fdfdbd;
 }

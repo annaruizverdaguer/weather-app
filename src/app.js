@@ -25,10 +25,16 @@ function getCity() {
 
 function printWeather(response) {
   let temperature = Math.round(response.data.main.temp);
-  let h1 = document.querySelector("h1");
-  let span = document.querySelector("#current-temperature");
-  h1.innerHTML = `${response.data.name}`;
-  span.innerHTML = `${temperature}ºC`;
+  let description = response.data.weather[0].description;
+  let iconCode = response.data.weather[0].icon;
+  let windSpeed = response.data.wind.speed;
+  document.querySelector("h2").innerHTML = `${response.data.name}`;
+  document.querySelector("#current-temperature").innerHTML = `${temperature}`;
+  document.querySelector(".description").innerHTML = description;
+  document
+    .querySelector(".weather-icon")
+    .setAttribute("src", `http://openweathermap.org/img/wn/${iconCode}@2x.png`);
+  document.querySelector(".wind").innerHTML = `Wind speed: ${windSpeed}m/s`;
 }
 
 function getWeather(position) {
@@ -45,6 +51,16 @@ function getWeather(position) {
 
 function getCurrentLocation() {
   navigator.geolocation.getCurrentPosition(getWeather);
+}
+
+function celciusToFarenheit(celcius) {
+  let farenheit = (celcius * 9) / 5 + 32;
+  return Math.round(farenheit);
+}
+
+function farenheitToCelcius(farenheit) {
+  let celcius = ((farenheit - 32) * 5) / 9;
+  return Math.round(celcius);
 }
 
 getWeather("Barcelona");
@@ -75,3 +91,19 @@ submitButton.addEventListener("click", function (e) {
 
 let currentLocationButton = document.querySelector("#current-location-btn");
 currentLocationButton.onclick = getCurrentLocation;
+
+let currentTemperature = document.querySelector("#current-temperature");
+let units = document.querySelector(".units");
+units.onclick = function (e) {
+  e.preventDefault();
+  let notActiveUnit = document.querySelector("#link-active");
+  let temp = "";
+  if (notActiveUnit.innerHTML == "ºF") {
+    temp = celciusToFarenheit(currentTemperature.innerHTML);
+    units.innerHTML = '<a href="#" id="link-active">ºC</a> | ºF';
+  } else {
+    temp = farenheitToCelcius(currentTemperature.innerHTML);
+    units.innerHTML = 'ºC | <a href="#" id="link-active">ºF</a>';
+  }
+  currentTemperature.innerHTML = `${temp}`;
+};

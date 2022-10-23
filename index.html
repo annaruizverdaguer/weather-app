@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SheCodes Plus WorkshopW2</title>
+    <title>Weather Forecast</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
       rel="stylesheet"
@@ -24,6 +24,8 @@
   <body>
     <div class="container">
       <br />
+      <h1>Weather Forecast</h1>
+      <p id="current-date">Current date and time</p>
       <form>
         <div class="input-group mb-3 search-city">
           <span class="input-group-text" id="basic-addon1">🔍</span>
@@ -53,31 +55,48 @@
       <hr />
       <p>Current weather in:</p>
       <div class="row">
-        <div class="col-6">
+        <div class="col-12">
           <div class="card h-100">
             <div class="card-body">
-              <h1>Barcelona</h1>
-            </div>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="card text-center h-100">
-            <div class="card-body">
-              <i class="fa-solid fa-sun"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-3">
-          <div class="card text-center h-100">
-            <div class="card-body">
-              <span id="current-temperature">28ºC</span>
+              <h2>Barcelona</h2>
             </div>
           </div>
         </div>
       </div>
       <br />
-      <p id="current-date">Current date and time</p>
-
+      <div class="row">
+        <div class="col-2">
+          <div class="card text-center h-100">
+            <div class="card-body">
+              <img src="" alt="Weather Icon" class="weather-icon" />
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card text-center h-100">
+            <div class="card-body">
+              <span id="current-temperature">28</span>
+              <span class="units"
+                >ºC | <a href="#" id="link-active">ºF</a></span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <span class="description">weather description</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <span class="wind">wind speed</span>
+            </div>
+          </div>
+        </div>
+      </div>
       <hr />
       <p>Forecast:</p>
       <div class="row">
