@@ -25,7 +25,6 @@
     <div class="container">
       <br />
       <h1>Weather Forecast</h1>
-      <p id="current-date">Current date and time</p>
       <form>
         <div class="input-group mb-3 search-city">
           <span class="input-group-text" id="basic-addon1">🔍</span>
@@ -48,33 +47,34 @@
             type="button"
             id="current-location-btn"
           >
-            Current
+            Current Location
           </button>
         </div>
       </form>
-      <hr />
-      <p>Current weather in:</p>
-      <div class="row">
-        <div class="col-12">
-          <div class="card h-100">
-            <div class="card-body">
-              <h2>Barcelona</h2>
-            </div>
-          </div>
-        </div>
+      <div class="row info">
+        <div class="col-6"><h2>Barcelona</h2></div>
+        <div class="col-6"><p id="current-date">Current date and time</p></div>
       </div>
-      <br />
+      <hr />
+      <p>Current weather:</p>
       <div class="row">
         <div class="col-2">
           <div class="card text-center h-100">
             <div class="card-body">
-              <img src="" alt="Weather Icon" class="weather-icon" />
+              📷 <br />
+              <img
+                src=""
+                alt="Weather Icon"
+                class="weather-icon"
+                id="current-weather-icon"
+              />
             </div>
           </div>
         </div>
         <div class="col-3">
           <div class="card text-center h-100">
             <div class="card-body">
+              🌡 <br />
               <span id="current-temperature">28</span>
               <span class="units"
                 >ºC | <a href="#" id="link-active">ºF</a></span
@@ -82,16 +82,18 @@
             </div>
           </div>
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <div class="card h-100">
             <div class="card-body">
+              👀 <br />
               <span class="description">weather description</span>
             </div>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <div class="card h-100">
             <div class="card-body">
+              💨 <br />
               <span class="wind">wind speed</span>
             </div>
           </div>
@@ -99,58 +101,7 @@
       </div>
       <hr />
       <p>Forecast:</p>
-      <div class="row">
-        <div class="col">
-          <div class="card text-center">
-            <div class="card-body">
-              <h5 class="card-title">Monday</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
-                <i class="fa-solid fa-sun"></i>
-              </h6>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card text-center">
-            <div class="card-body">
-              <h5 class="card-title">Tuesday</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
-                <i class="fa-solid fa-cloud-sun"></i>
-              </h6>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card text-center">
-            <div class="card-body">
-              <h5 class="card-title">Wednesday</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
-                <i class="fa-solid fa-cloud-sun-rain"></i>
-              </h6>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card text-center">
-            <div class="card-body">
-              <h5 class="card-title">Thursday</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
-                <i class="fa-solid fa-cloud-rain"></i>
-              </h6>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card text-center">
-            <div class="card-body">
-              <h5 class="card-title">Friday</h5>
-              <h6 class="card-subtitle mb-2 text-muted">
-                <i class="fa-solid fa-cloud-rain"></i>
-              </h6>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="row forecast"></div>
       <p class="footnote">
         <br />
         Coded by Anna Ruiz Verdaguer. Check the code

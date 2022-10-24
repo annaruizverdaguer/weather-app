@@ -1,5 +1,23 @@
 const apiKey = "0ebc654fccbc00189d5408f3d6f15b08";
-const baseUrl = "https://api.openweathermap.org/data/2.5/weather?";
+const baseUrl = "https://api.openweathermap.org/data/2.5/";
+
+let week = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+let date = new Date();
+let day = week[date.getDay()];
+let hours = date.getHours();
+let minutes = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
+
+let dateElement = document.querySelector("#current-date");
+dateElement.innerHTML = `📅 ${day} 🕐 ${hours}:${minutes}`;
 
 function capitalizeCity(city) {
   let capCity = "";
@@ -30,23 +48,48 @@ function printWeather(response) {
   let windSpeed = response.data.wind.speed;
   document.querySelector("h2").innerHTML = `${response.data.name}`;
   document.querySelector("#current-temperature").innerHTML = `${temperature}`;
-  document.querySelector(".description").innerHTML = description;
+  document.querySelector(".description").innerHTML =
+    description.charAt(0).toUpperCase() + description.slice(1);
   document
-    .querySelector(".weather-icon")
+    .querySelector("#current-weather-icon")
     .setAttribute("src", `http://openweathermap.org/img/wn/${iconCode}@2x.png`);
-  document.querySelector(".wind").innerHTML = `Wind speed: ${windSpeed}m/s`;
+  document.querySelector(".wind").innerHTML = `${windSpeed} m/s`;
+}
+
+function printForecast(response) {
+  let forecastContainer = document.querySelector(".forecast");
+  forecastContainer.innerHTML = "";
+  for (let index = 0; index < 5; index++) {
+    let iconCode = response.data.list[index * 8].weather[0].icon;
+    let description = response.data.list[index * 8].weather[0].description;
+    let dailyForecast = document.createElement("div");
+    dailyForecast.classList.add("col");
+    dailyForecast.innerHTML = `<div class="card text-center">
+            <div class="card-body">
+              <h5 class="card-title">${week[date.getDay() + index + 1]}</h5>
+              <h6 class="card-subtitle mb-2 text-muted"> 
+                <img src="http://openweathermap.org/img/wn/${iconCode}@2x.png" alt="Forecast icon" class="weather-icon">
+                <br/>${
+                  description.charAt(0).toUpperCase() + description.slice(1)
+                } 
+              </h6>
+            </div>
+          </div>`;
+    forecastContainer.appendChild(dailyForecast);
+  }
 }
 
 function getWeather(position) {
-  let finalUrl = "";
+  let urlParams = "";
   if (typeof position == "string") {
-    finalUrl = `${baseUrl}&q=${position}&units=metric&appid=${apiKey}`;
+    urlParams = `&q=${position}&units=metric&appid=${apiKey}`;
   } else {
     let longitude = position.coords.longitude;
     let latitude = position.coords.latitude;
-    finalUrl = `${baseUrl}lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
+    urlParams = `lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
   }
-  axios.get(finalUrl).then(printWeather);
+  axios.get(baseUrl + "weather?" + urlParams).then(printWeather);
+  axios.get(baseUrl + "forecast?" + urlParams).then(printForecast);
 }
 
 function getCurrentLocation() {
@@ -63,25 +106,20 @@ function farenheitToCelcius(farenheit) {
   return Math.round(celcius);
 }
 
+function switchUnits(temperatureElement) {
+  let notActiveUnit = document.querySelector("#link-active");
+  let temp = "";
+  if (notActiveUnit.innerHTML == "ºF") {
+    temp = celciusToFarenheit(temperatureElement.innerHTML);
+    units.innerHTML = '<a href="#" id="link-active">ºC</a> | ºF';
+  } else {
+    temp = farenheitToCelcius(temperatureElement.innerHTML);
+    units.innerHTML = 'ºC | <a href="#" id="link-active">ºF</a>';
+  }
+  temperatureElement.innerHTML = `${temp}`;
+}
+
 getWeather("Barcelona");
-
-let week = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
-let date = new Date();
-let day = week[date.getDay()];
-let hours = date.getHours();
-let minutes = (date.getMinutes() < 10 ? "0" : "") + date.getMinutes();
-
-let dateElement = document.querySelector("#current-date");
-dateElement.innerHTML = `${day} ${hours}:${minutes}`;
 
 let submitButton = document.querySelector("#search-button");
 submitButton.addEventListener("click", function (e) {
@@ -96,14 +134,5 @@ let currentTemperature = document.querySelector("#current-temperature");
 let units = document.querySelector(".units");
 units.onclick = function (e) {
   e.preventDefault();
-  let notActiveUnit = document.querySelector("#link-active");
-  let temp = "";
-  if (notActiveUnit.innerHTML == "ºF") {
-    temp = celciusToFarenheit(currentTemperature.innerHTML);
-    units.innerHTML = '<a href="#" id="link-active">ºC</a> | ºF';
-  } else {
-    temp = farenheitToCelcius(currentTemperature.innerHTML);
-    units.innerHTML = 'ºC | <a href="#" id="link-active">ºF</a>';
-  }
-  currentTemperature.innerHTML = `${temp}`;
+  switchUnits(currentTemperature);
 };

@@ -1,16 +1,18 @@
 body {
   font-family: "Roboto Condensed", sans-serif;
-  background: #a5c9ca;
   color: #2c3333;
 }
 
 .container {
   width: 70%;
-  margin: 0 auto;
+  margin: 20px auto;
+  background: #e7f6f2;
+  padding: 20px;
+  border-radius: 20px;
 }
 
 p {
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .footnote {
@@ -19,10 +21,30 @@ p {
 
 .card {
   border: 0px;
+  border-radius: 20px;
+  background: #a5c9ca;
+  text-align: center;
+}
+.card:hover {
+  background: #96bcbd;
+}
+
+.card-body {
+  font-size: 25px;
 }
 
 .weather-icon {
   width: 50px;
+}
+
+.units {
+  font-size: 22px;
+}
+
+#current-date {
+  text-align: right;
+  margin: 0px;
+  line-height: 46px;
 }
 
 i,
@@ -33,4 +55,8 @@ span {
 
 button {
   color: #fdfdbd;
+}
+
+h1 {
+  padding-bottom: 15px;
 }
