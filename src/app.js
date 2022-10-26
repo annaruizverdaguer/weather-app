@@ -55,7 +55,10 @@ function printWeather(response) {
     description.charAt(0).toUpperCase() + description.slice(1);
   document
     .querySelector("#current-weather-icon")
-    .setAttribute("src", `http://openweathermap.org/img/wn/${iconCode}@2x.png`);
+    .setAttribute(
+      "src",
+      `https://openweathermap.org/img/wn/${iconCode}@2x.png`
+    );
   document.querySelector(".wind").innerHTML = `${windSpeed} m/s`;
 }
 
@@ -74,7 +77,7 @@ function printForecast(response) {
             <div class="card-body">
               <h5 class="card-title">${day}</h5>
               <h6 class="card-subtitle mb-2 text-muted"> 
-                <img src="http://openweathermap.org/img/wn/${iconCode}@2x.png" alt="Forecast icon" class="weather-icon">
+                <img src="https://openweathermap.org/img/wn/${iconCode}@2x.png" alt="Forecast icon" class="weather-icon">
                 <br/>
                 <span class="forecast-temperature max-temp">${maxTemp}</span>º 
                 <span class="forecast-temperature">${minTemp}</span>º
