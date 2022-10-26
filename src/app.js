@@ -1,7 +1,7 @@
 const apiKey = "0ebc654fccbc00189d5408f3d6f15b08";
 const baseUrl = "https://api.openweathermap.org/data/2.5/";
-const geoUrl = "http://api.openweathermap.org/geo/1.0/direct?";
-const reverseGeoUrl = "http://api.openweathermap.org/geo/1.0/reverse?";
+const geoUrl = "https://api.openweathermap.org/geo/1.0/direct?";
+const reverseGeoUrl = "https://api.openweathermap.org/geo/1.0/reverse?";
 let currentCity = "Barcelona";
 
 let week = [
