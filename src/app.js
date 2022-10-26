@@ -1,5 +1,8 @@
 const apiKey = "0ebc654fccbc00189d5408f3d6f15b08";
 const baseUrl = "https://api.openweathermap.org/data/2.5/";
+const geoUrl = "http://api.openweathermap.org/geo/1.0/direct?";
+const reverseGeoUrl = "http://api.openweathermap.org/geo/1.0/reverse?";
+let currentCity = "Barcelona";
 
 let week = [
   "Sunday",
@@ -37,16 +40,16 @@ function capitalizeCity(city) {
 }
 
 function getCity() {
-  let city = capitalizeCity(document.querySelector("input").value);
-  getWeather(city);
+  currentCity = capitalizeCity(document.querySelector("input").value);
+  getCoordinates(currentCity);
 }
 
 function printWeather(response) {
-  let temperature = Math.round(response.data.main.temp);
-  let description = response.data.weather[0].description;
-  let iconCode = response.data.weather[0].icon;
-  let windSpeed = response.data.wind.speed;
-  document.querySelector("h2").innerHTML = `${response.data.name}`;
+  let temperature = Math.round(response.current.temp);
+  let description = response.current.weather[0].description;
+  let iconCode = response.current.weather[0].icon;
+  let windSpeed = response.current.wind_speed;
+  document.querySelector("h2").innerHTML = currentCity;
   document.querySelector("#current-temperature").innerHTML = `${temperature}`;
   document.querySelector(".description").innerHTML =
     description.charAt(0).toUpperCase() + description.slice(1);
@@ -59,19 +62,22 @@ function printWeather(response) {
 function printForecast(response) {
   let forecastContainer = document.querySelector(".forecast");
   forecastContainer.innerHTML = "";
-  for (let index = 0; index < 5; index++) {
-    let iconCode = response.data.list[index * 8].weather[0].icon;
-    let description = response.data.list[index * 8].weather[0].description;
+  for (let index = 1; index < response.daily.length; index++) {
+    let date = new Date(response.daily[index].dt * 1000);
+    let day = week[date.getDay()];
+    let maxTemp = Math.round(response.daily[index].temp.max);
+    let minTemp = Math.round(response.daily[index].temp.min);
+    let iconCode = response.daily[index].weather[0].icon;
     let dailyForecast = document.createElement("div");
     dailyForecast.classList.add("col");
     dailyForecast.innerHTML = `<div class="card text-center">
             <div class="card-body">
-              <h5 class="card-title">${week[date.getDay() + index + 1]}</h5>
+              <h5 class="card-title">${day}</h5>
               <h6 class="card-subtitle mb-2 text-muted"> 
                 <img src="http://openweathermap.org/img/wn/${iconCode}@2x.png" alt="Forecast icon" class="weather-icon">
-                <br/>${
-                  description.charAt(0).toUpperCase() + description.slice(1)
-                } 
+                <br/>
+                <span class="forecast-temperature max-temp">${maxTemp}</span>º 
+                <span class="forecast-temperature">${minTemp}</span>º
               </h6>
             </div>
           </div>`;
@@ -79,21 +85,37 @@ function printForecast(response) {
   }
 }
 
-function getWeather(position) {
-  let urlParams = "";
-  if (typeof position == "string") {
-    urlParams = `&q=${position}&units=metric&appid=${apiKey}`;
-  } else {
-    let longitude = position.coords.longitude;
-    let latitude = position.coords.latitude;
-    urlParams = `lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-  }
-  axios.get(baseUrl + "weather?" + urlParams).then(printWeather);
-  axios.get(baseUrl + "forecast?" + urlParams).then(printForecast);
+function printInfo(response) {
+  printWeather(response);
+  printForecast(response);
+}
+
+function getForecast(latitude, longitude) {
+  let params = `onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&units=metric&appid=${apiKey}`;
+  axios.get(baseUrl + params).then((response) => printInfo(response.data));
+}
+
+function getCoordinates(city) {
+  let params = `&q=${city}&appid=${apiKey}`;
+  axios
+    .get(geoUrl + params)
+    .then((response) =>
+      getForecast(response.data[0].lat, response.data[0].lon)
+    );
+}
+
+function getCityFromCoordinates(latitude, longitude) {
+  let params = `&lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
+  axios
+    .get(reverseGeoUrl + params)
+    .then((response) => (currentCity = response.data[0].name));
+  getForecast(latitude, longitude);
 }
 
 function getCurrentLocation() {
-  navigator.geolocation.getCurrentPosition(getWeather);
+  navigator.geolocation.getCurrentPosition((position) =>
+    getCityFromCoordinates(position.coords.latitude, position.coords.longitude)
+  );
 }
 
 function celciusToFarenheit(celcius) {
@@ -108,31 +130,43 @@ function farenheitToCelcius(farenheit) {
 
 function switchUnits(temperatureElement) {
   let notActiveUnit = document.querySelector("#link-active");
+  let forecastTemperatureElements = document.querySelectorAll(
+    ".forecast-temperature"
+  );
   let temp = "";
   if (notActiveUnit.innerHTML == "ºF") {
     temp = celciusToFarenheit(temperatureElement.innerHTML);
-    units.innerHTML = '<a href="#" id="link-active">ºC</a> | ºF';
+    forecastTemperatureElements.forEach(function (element) {
+      let value = celciusToFarenheit(parseInt(element.textContent));
+      element.textContent = value;
+    });
+    unitsClickable.innerHTML = '<a href="#" id="link-active">ºC</a> | ºF';
   } else {
     temp = farenheitToCelcius(temperatureElement.innerHTML);
-    units.innerHTML = 'ºC | <a href="#" id="link-active">ºF</a>';
+    forecastTemperatureElements.forEach(function (element) {
+      let value = farenheitToCelcius(parseInt(element.textContent));
+      element.textContent = value;
+    });
+    unitsClickable.innerHTML = 'ºC | <a href="#" id="link-active">ºF</a>';
   }
   temperatureElement.innerHTML = `${temp}`;
 }
 
-getWeather("Barcelona");
+getCoordinates(currentCity);
 
 let submitButton = document.querySelector("#search-button");
 submitButton.addEventListener("click", function (e) {
   e.preventDefault();
   getCity();
+  document.querySelector("input").value = "";
 });
 
 let currentLocationButton = document.querySelector("#current-location-btn");
 currentLocationButton.onclick = getCurrentLocation;
 
 let currentTemperature = document.querySelector("#current-temperature");
-let units = document.querySelector(".units");
-units.onclick = function (e) {
+let unitsClickable = document.querySelector(".units");
+unitsClickable.onclick = function (e) {
   e.preventDefault();
   switchUnits(currentTemperature);
 };

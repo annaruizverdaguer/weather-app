@@ -9,6 +9,7 @@ body {
   background: #e7f6f2;
   padding: 20px;
   border-radius: 20px;
+  min-width: 650px;
 }
 
 p {
@@ -49,8 +50,11 @@ p {
   line-height: 46px;
 }
 
-i,
-span {
+.max-temp {
+  font-weight: bold;
+}
+
+div.weather span {
   font-size: 30px;
   color: #395b64;
 }
